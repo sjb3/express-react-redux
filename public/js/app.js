@@ -4,19 +4,26 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import Counter from './Counter';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, combineReducers } from 'redux';
 import counterApp from './reducers';
+import { Router, Route, browserHistory, IndexRoute } from 'react-router';
+import { syncHistoryWithStore, routerReducer } from 'react-router-reducer';
 
+const store = createStore(
+  combineReducers({
+    gloabal: counterApp,
+    routing: routerReducer
+  }));
 
-var store = createStore(counterApp);
+const history = syncHistoryWithStore(browserHistory, store)
 
-class App extends Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <Counter />
-      </Provider>,
-      document.getElementById('app')
-    )
-  }
-}
+render()
+
+    <Provider store={store}>
+      <Router history={history}>
+        <Route path="/" component={} />
+      </Router>
+      <Counter />
+    </Provider>,
+    document.getElementById('app')
+
